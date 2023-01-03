@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<style>
+html, * {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		background-color: #03045e;
+	}
+
+	.head {
+		width: 100%;
+		height: 50px;
+		color: rgb(209, 209, 209);
+		border-bottom: 1px solid white;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.help {
+		flex: 1;
+	}
+
+	.help > p {
+		width: fit-content;
+		margin: auto;
+		padding: 4px;
+		cursor: pointer;
+	}
+
+	.help > p:hover {
+		background-color: #23247e;
+	}
+
+	.title {
+		flex: 4;
+		font-size: 28px;
+	}
+
+	.temp {
+		flex: 1;
+	}
+
+	.main {
+		width: 100%;
+		display: flex;
+	}
+		
+	.container {
+		flex: 1;
+		align-items: center;
+		padding: 16px;
+	}
+
+	.posts {
+		overflow-y: scroll;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: auto 20% 20% 20%;
+		text-align: center;
+		row-gap: 8px;
+		color: rgb(209, 209, 209);
+		margin-bottom: 16px;
+	}	
+	
+	.label {
+		text-align: center;
+		background-color: #23247e;
+		border-radius: 8px;
+		padding: 4px;
+	}	
+	
+	.post {
+		background-color: #8d8d8d;
+		padding: 12px;
+		margin-bottom: 8px;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		white-space: nowrap;
+	}
+
+	.mobilecont {
+		flex: 1;
+		display: flex;
+		align-items: center;
+	}
+
+	.post-username {
+		flex: 1;
+		max-width: fit-content;
+		margin-right: 8px;
+	}
+
+	.post-labels {
+		flex: 2;
+		display: flex;
+		align-items: center;
+		min-width: fit-content;
+	}
+
+	.post-label {
+		color: white;
+		background-color: #23247e;
+		padding: 2px 6px;
+		border-radius: 8px;
+		margin: 0 4px;
+		word-wrap: none;
+	}
+
+	.post-headline {
+		flex: 1;
+		word-break: keep-all;
+		overflow: hidden;
+	}
+
+	.btn {
+		color: rgb(209, 209, 209);
+		background-color: #0a47a1;
+		width: 100%;
+		margin: 8px 0;
+		display: none;
+	}
+
+	.marked {
+		outline: auto;
+		outline-color: red;
+	}
+	
+	.success {
+		position: absolute;
+		top: 50px;
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 0 64px;
+		z-index: 1;
+		opacity: 1;
+		text-align: center;
+		transition: all 400ms;
+		box-shadow: 8px 8px 10px 0px rgba(0,0,0,0.53);
+	}
+	
+	.inv {
+		opacity: 0;
+		transition: all 1000ms;
+	}
+
+	.footer {
+		color: rgb(209, 209, 209);
+		background-color: #03045e;
+		width: 100%;
+		padding: 2px;
+		text-align: center;
+		position: fixed;
+		bottom: 0;
+		border-top: 1px solid white;
+	}
+
+	.footer > p {
+		margin: 0;
+	}
+
+	.explain {
+		display: block;
+		background-color: #03045e;
+		border: 1px solid rgb(209, 209, 209);
+		border-radius: 12px;
+		color: rgb(209, 209, 209);
+		position: absolute;
+		top: 60px;
+		padding: 8px;
+		width: 50%;
+		z-index: 2;
+	}
+
+	.ex-inv {
+		display: none;
+	}
+
+	@media screen and (max-width: 768px) {
+		.container {
+			max-width: 100%;
+		}
+
+		.main {
+			display: block;
+		}
+
+		.posts {
+			margin-bottom: 16px;
+		}
+
+		.post {
+			display: block;
+		}
+
+		.post-label {
+			padding: 2px 4px;
+		}
+
+		.post-headline {
+			margin-top: 8px;
+		}
+
+		.explain {
+			width: calc(100% - 32px);
+		}
+	}
+</style>
+
+<body>
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	
+	<div class="head">
+	<div class="help" onclick="toggleHelp()"><p>?</p></div>
+	<div class="title">FET Group Mail</div>
+	<div class="temp"></div>
+	</div>
+	<div class="main">
+		<div class="container">
+			<form method="" action="" , id="form">
+				<div class="grid" id="grid">
+					<div>Label</div>
+					<div>Accept</div>
+					<div>Reject</div>
+					<div>Ignore</div>
+				</div>
+			</form>
+			<div id="buttonDiv"></div>
+			<button id="submitBtn" class="w3-btn btn" onclick="sub()">Submit</button>
+			<a id="logoutBtn" href="/logout" class="w3-btn btn">Logout</a>
+
+			<div class="explain ex-inv" id="help">
+				<p>Pozdrav! Napisao sam skriptu koja redovno provjerava <a href="https://groups.google.com/a/fet.ba/g/oglasi">Oglasnu ploču fakulteta</a> te može poslati E-Mail korisnicima.
+				Kada skripta odlučuje kome poslati E-Mail za određenu objavu na Oglasnoj ploči, to vrši na sljedeći način:</p>
+					<p>> accept - uključni filter, objave sa ovom oznakom će biti poslane;</p>
+					<p>> reject - isključni filter, objave sa ovom oznkaom neće biti poslane i ako sadržavaju oznaku koju ste postavili na accept</p>
+					<p>> ignore - neutralni filter, nema uticaja na gornje filtere, objava neće biti poslana ukoliko sadrži samo ignore filtrirane oznake</p>
+				<p>Desno ili ispod ukoliko ste na mobitelu možete vidjeti posljednih 10 objava na Oglasnoj ploči te kako vaši filteri utiču na njih. Ukoliko objava ima crveni rub, znači da biste dobili E-Mail o toj objavi.</p>
+			</div>
+
+			<div id="submitted" class="w3-panel w3-green inv success">
+				<p>Saved!</p>
+			</div>
+		</div>
+		<div class="container posts" id="post-container">
+		
+		</div>
+	</div>
+	<div class="footer">
+		<p>by Adnan</p>
+	</div>
+	<script>
+	function handleCredentialResponse(response) {
+		console.log(response.credential);
+		form = document.createElement("form");
+		form.setAttribute("action", "/login");
+		form.setAttribute("method", "post");
+
+		input = document.createElement("input")
+		input.setAttribute("type", "text");
+		input.setAttribute("name", "id");
+
+		form.appendChild(input);
+
+		input.value = response.credential;
+
+		document.body.appendChild(form);
+		form.style.visibility = "hidden";
+		form.submit();
+	}
+
+	document.getElementById("form").addEventListener("submit", e => { e.preventDefault(); })
+
+	document.getElementById("form").addEventListener("input", () => {
+		markPosts();
+	});
+
+	function markPosts() {
+		document.querySelectorAll(".post").forEach(el => {el.classList.remove("marked")});
+		document.querySelectorAll('input[value="1"][type="radio"]:checked').forEach(el => {
+			document.querySelectorAll(".post").forEach(post => {
+				let i = posts.findIndex(ps => ps.link == post.id);
+				if(i < 0) return;
+				if(posts[i].labels.includes(labels[el.name.slice(3)]))
+				{
+					post.classList.add("marked");
+				}
+				if(posts[i].labels.length == 0 && labels[el.name.slice(3)] == "bez oznake")
+				{
+					post.classList.add("marked");
+				}
+			});			
+		});
+
+		document.querySelectorAll('input[value="0"][type="radio"]:checked').forEach(el => {
+			document.querySelectorAll(".post").forEach(post => {
+				let i = posts.findIndex(ps => ps.link == post.id);
+				if(i < 0) return;
+				if(posts[i].labels.includes(labels[el.name.slice(3)]))
+				{
+					post.classList.remove("marked");
+				}
+				if(posts[i].labels.length == 0 && labels[el.name.slice(3)] == "bez oznake")
+				{
+					post.classList.remove("marked");
+				}
+			});			
+		});
+	}
+
+	function toggleHelp() {
+		document.getElementById("help").classList.toggle("ex-inv");
+	}
+
+	function sub() {
+		form = document.getElementById("form");
+		formData = new FormData(form);
+
+		var req = new XMLHttpRequest();
+		req.open("POST", "/submit", true);
+		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		data = "";
+		for (var pair of formData.entries()) {
+			data += encodeURI(pair[0]) + '=' + encodeURI(pair[1]) + '&';
+		}
+		req.send(data);
+
+		req.onreadystatechange = () => {
+			if (req.readyState === 4) {
+				if(req.response == "ok")
+				{
+					document.getElementById("submitted").classList.remove("inv");
+					setTimeout(() => {
+						document.getElementById("submitted").classList.add("inv");
+					}, 2000)
+				}
+				else if(req.response = "nolog")
+				{
+					alert("You're not logged in");
+					location = "/";
+				}
+			}
+		}
+	}
+
+	var labels = [];
+	var choices = [];
+	var posts = [];
+
+	window.onload = () => {
+		
+		let search = new URLSearchParams(window.location.search);
+		if(search.has("loggedin"))
+		{
+			document.getElementById("submitBtn").style.display = "block";
+			document.getElementById("logoutBtn").style.display = "block";
+			document.getElementById("buttonDiv").style.display = "none";
+		}
+		else
+		{
+			google.accounts.id.initialize({
+				client_id: "52768886806-ui82pjvb26rs1kbp97u2huhsbhpav7ra.apps.googleusercontent.com",
+				callback: handleCredentialResponse
+			});
+			google.accounts.id.renderButton(
+				document.getElementById("buttonDiv"),
+				{ theme: "filled-blue", size: "large" }  // customization attributes
+				);
+			google.accounts.id.prompt(); // also display the One Tap dialog
+		}
+
+		requestChoices();
+		requestPosts();			
+	};
+
+	function requestChoices() {
+		var req = new XMLHttpRequest();
+		req.open("POST", "/choices", true);
+		req.send();
+		req.onreadystatechange = () => {
+			if (req.readyState === 4) {
+				choices = JSON.parse(req.response);
+				populateChoices();
+			}
+		}
+	}
+
+	function populateChoices() {
+		grid = document.getElementById("grid");
+
+		choices.forEach(choice => {
+			labels[choice.id] = choice.name;
+			div = document.createElement("div");
+			div.classList.add("label");
+			div.textContent = choice.name;
+
+			input1 = document.createElement("input");
+			input1.setAttribute("type", "radio");
+			input1.setAttribute("value", 1);
+			input1.setAttribute("name", "ch-" + choice.id.toString());
+
+			input2 = document.createElement("input");
+			input2.setAttribute("type", "radio")
+			input2.setAttribute("value", 0);
+			input2.setAttribute("name", "ch-" + choice.id.toString());
+
+			input3 = document.createElement("input");
+			input3.setAttribute("type", "radio")
+			input3.setAttribute("value", 2);
+			input3.setAttribute("name", "ch-" + choice.id.toString());
+
+			if(choice.state == 2)
+			{
+				input3.setAttribute("checked", "on");
+			}
+			else if(choice.state == 1)
+			{
+				input1.setAttribute("checked", "on");
+			}
+			else if(choice.state == 0)
+			{
+				input2.setAttribute("checked", "on");
+			}
+
+			grid.appendChild(div);
+			grid.appendChild(input1);
+			grid.appendChild(input2);
+			grid.appendChild(input3);
+		});
+	}
+
+	function requestPosts() {
+		var req = new XMLHttpRequest();
+		req.open("POST", "/posts", true);
+		req.send();
+		req.onreadystatechange = () => {
+			if (req.readyState === 4) {
+				posts = JSON.parse(req.response);
+				populatePosts();
+			}
+		}
+	}
+
+	function populatePosts() {
+		let cont = document.getElementById("post-container")
+		for(i = 0; i < (10 < posts.length ? 10 : post.length); i++)
+		{
+			let post = posts[i];
+			let divPost = document.createElement('div');
+			divPost.classList.add('post');
+			divPost.setAttribute("id", post.link);
+			let divMob = document.createElement('div');
+			divMob.classList.add('mobilecont');
+			let divUser = document.createElement('div');
+			divUser.classList.add('post-username');
+			divUser.textContent = post.user;
+			let divHead = document.createElement('div');
+			divHead.classList.add('post-headline');
+			divHead.textContent = post.headline;
+			let divLabels = document.createElement('div');
+			divLabels.classList.add('post-labels');
+			
+			post.labels.forEach(label => {
+				let divLabel = document.createElement('div');
+				
+				divLabel.classList.add('post-label');
+				divLabel.textContent = label;
+
+				divLabels.appendChild(divLabel);
+			});
+
+
+			divMob.appendChild(divUser);
+			divMob.appendChild(divLabels);
+			divPost.appendChild(divMob);
+			divPost.appendChild(divHead);
+			cont.appendChild(divPost);
+		}
+		markPosts();
+	}
+	</script>
+</body>
+
+</html>
